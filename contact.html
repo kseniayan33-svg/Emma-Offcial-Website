@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emma 联系我们</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#4b5563;line-height:1.65;min-height:100vh;background-color:#6d28d9;background-image:radial-gradient(circle at 10% 4%,rgba(255,255,255,.10),rgba(255,255,255,0) 38%),radial-gradient(circle at 92% 8%,rgba(189,221,254,.14),rgba(189,221,254,0) 40%),radial-gradient(circle at 88% 92%,rgba(253,153,216,.24),rgba(253,153,216,0) 46%),linear-gradient(160deg,#6626cd,#8338ea 32%,#9c29c4 64%,#c2479b);background-size:auto,auto,auto,cover;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;background-attachment:fixed}
+.nav{position:sticky;top:0;z-index:9;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);color:#fff;flex-wrap:wrap}
+.nav b{font-size:17px;text-shadow:0 2px 8px rgba(59,7,100,.45)}
+.nav a{color:#f5f0ff;text-decoration:none;font-size:13px;padding:6px 12px;border-radius:999px}
+.nav a.on{background:#fff;color:#7c3aed;font-weight:700;box-shadow:0 6px 16px rgba(59,7,100,.3)}
+.wrap{max-width:1040px;margin:0 auto;padding:34px 20px 34px}
+h2{color:#fff;font-size:20px;text-align:center;margin:30px 0 16px;text-shadow:0 2px 14px rgba(70,10,110,.55)}
+h2:after{content:"";display:block;width:56px;height:3px;margin:10px auto 0;border-radius:4px;background:linear-gradient(to right,#f0abfc,#fff)}
+.grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:stretch}
+.grid>*{flex:1 1 140px;max-width:340px;min-width:0}
+@media(min-width:640px){.grid>*{flex-basis:23%}}
+.card{background:#fff;color:#4b5563;border:1px solid rgba(124,58,237,.12);border-radius:18px;padding:16px;box-shadow:0 18px 32px -22px rgba(59,7,100,.55);display:flex;flex-direction:column;gap:6px;text-align:center;text-decoration:none}
+.card i{font-style:normal;font-size:24px}
+.card p{font-size:13px}
+.card b{color:#3b0764;font-size:14px}
+.box{background:#fff;border:1px solid rgba(124,58,237,.12);border-radius:18px;padding:18px;box-shadow:0 18px 32px -22px rgba(59,7,100,.55);margin-top:14px}
+.box h3{color:#3b0764;font-size:16px;padding-bottom:8px;border-bottom:2px solid #ede9fe;margin-bottom:10px}
+ul{padding-left:18px;font-size:13.5px}
+li{margin-bottom:6px}
+.note{color:#6b7280;font-size:12.5px;margin-top:8px;text-align:center}
+.qr{display:flex;justify-content:center;margin:16px 0 4px}
+.qrcode{width:210px;height:210px;background:#fff;border:2px dashed rgba(124,58,237,.45);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7c3aed;font-size:13px;font-weight:700;line-height:1.6;text-align:center}
+.qrcode small{display:block;color:#9ca3af;font-weight:400;font-size:11px;margin-top:6px}
+.warn{background:#fff;border:1px solid rgba(239,68,68,.32);border-radius:22px;color:#b91c1c;text-align:center;font-size:13px;padding:14px 16px;margin-top:18px;box-shadow:0 14px 30px -18px rgba(59,7,100,.45)}
+.warn b{color:#dc2626}
+.tagbox{text-align:center;margin-top:18px}
+.tagbox span{display:inline-block;background:rgba(255,255,255,.9);color:#6d28d9;border-radius:999px;padding:8px 16px;font-size:12.5px;box-shadow:0 10px 22px -16px rgba(59,7,100,.6)}
+footer{max-width:980px;margin:26px auto 34px;padding:0 20px}
+footer a{display:block;background:linear-gradient(135deg,#c026d3,#7c3aed);color:#fff;text-decoration:none;font-weight:700;text-align:center;padding:13px;border-radius:999px;font-size:14px;box-shadow:0 12px 26px rgba(124,58,237,.38)}
+@media(max-width:420px){.wrap{padding:18px 14px 28px}h2{font-size:18px}footer{padding:0 14px}}
+</style>
+</head>
+<body>
+<div class="nav">
+<b>⚡ Emma</b>
+<span><a href="index.html">主播政策</a><a href="agency.html">公会政策</a><a href="contact.html" class="on">联系我们</a></span>
+</div>
+<div class="wrap">
+<h2>📱 官方管理员二维码</h2>
+<div class="box">
+<div class="qr"><div class="qrcode">二维码<br>占位图<small>替换成官方二维码</small></div></div>
+<p class="note">打开你的聊天软件，扫描二维码即可添加官方管理员。<br>我们 7*24 小时为主播和公会提供服务。</p>
+</div>
+<h2>💬 联系方式</h2>
+<div class="grid">
+<a class="card" href="#"><i>💬</i><b>WhatsApp</b><p>官方管理员：+44 7517 108046</p></a>
+<a class="card" href="index.html"><i>💃</i><b>主播专区</b><p>查看主播政策，开始赚钱</p></a>
+<a class="card" href="agency.html"><i>🏛</i><b>公会专区</b><p>查看公会政策，组建你的团队</p></a>
+</div>
+<h2>🕐 客服服务</h2>
+<div class="box">
+<ul>
+<li>7*24 小时在线，随时解答你的问题</li>
+<li>官方管理员协助你提升收益</li>
+<li>请只通过以上官方渠道联系我们</li>
+</ul>
+</div>
+<div class="warn">⚠ 谨防其他渠道冒充官方管理员的人。<b>官方管理员绝不会索要你的密码或验证码。</b></div>
+<div class="tagbox"><span>⚖ © 2026 Emma 运营团队 · 政策解释权所有</span></div>
+</div>
+<footer><a href="#">💬 联系官方管理员</a></footer>
+</body>
+</html>
