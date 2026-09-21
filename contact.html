@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emma 联系我们</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#4b5563;line-height:1.65;min-height:100vh;background-color:#6d28d9;background-image:radial-gradient(circle at 10% 4%,rgba(255,255,255,.10),rgba(255,255,255,0) 38%),radial-gradient(circle at 92% 8%,rgba(189,221,254,.14),rgba(189,221,254,0) 40%),radial-gradient(circle at 88% 92%,rgba(253,153,216,.24),rgba(253,153,216,0) 46%),linear-gradient(160deg,#6626cd,#8338ea 32%,#9c29c4 64%,#c2479b);background-size:auto,auto,auto,cover;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;background-attachment:fixed}
+.nav{position:sticky;top:0;z-index:9;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);color:#fff;flex-wrap:wrap}
+.nav b{font-size:17px;text-shadow:0 2px 8px rgba(59,7,100,.45)}
+.nav a{color:#f5f0ff;text-decoration:none;font-size:13px;padding:6px 12px;border-radius:999px}
+.nav a.on{background:#fff;color:#7c3aed;font-weight:700;box-shadow:0 6px 16px rgba(59,7,100,.3)}
+.lang-select{background:#ffffff;color:#000;border:1px solid #ddd;padding:5px 8px;border-radius:8px}
+select option{background:#ffffff !important;color:#000000 !important}
+select option:hover{background:#f3f4f6 !important;color:#000000 !important}
+select option:checked{background:#eef2ff !important;color:#000000 !important}
+.wrap{max-width:1040px;margin:0 auto;padding:34px 20px 34px}
+h2{color:#fff;font-size:20px;text-align:center;margin:30px 0 16px;text-shadow:0 2px 14px rgba(70,10,110,.55)}
+h2:after{content:"";display:block;width:56px;height:3px;margin:10px auto 0;border-radius:4px;background:linear-gradient(to right,#f0abfc,#fff)}
+.grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:stretch}
+.grid>*{flex:1 1 140px;max-width:340px;min-width:0}
+@media(min-width:640px){.grid>*{flex-basis:23%}}
+.card{background:#fff;
+color:#4b5563;
+border:1px solid rgba(124,58,237,.22);
+border-radius:18px;
+padding:16px;
+box-shadow:0 18px 32px -22px rgba(59,7,100,.55);
+display:flex;
+flex-direction:column;
+gap:6px;
+text-align:center;
+text-decoration:none;
+cursor:pointer;
+transition:all .25s ease;
+position:relative;
+top:0;
+}
+.card:hover{
+  border-color:rgba(192,38,211,.55);
+  box-shadow:0 0 0 4px rgba(192,38,211,.18), 0 18px 32px -12px rgba(124,58,237,.5);
+  transform:translateY(-4px);
+  filter:brightness(1.04);
+}
+.card:active{
+  transform:translateY(0) scale(.98);
+  box-shadow:0 0 0 2px rgba(192,38,211,.35), 0 10px 20px -14px rgba(124,58,237,.45);
+}
+.card i{font-style:normal;font-size:24px}
+.card p{font-size:13px}
+.card b{color:#3b0764;font-size:14px}
+.box{background:#fff;border:1px solid rgba(124,58,237,.12);border-radius:18px;padding:18px;box-shadow:0 18px 32px -22px rgba(59,7,100,.55);margin-top:14px}
+.box h3{color:#3b0764;font-size:16px;padding-bottom:8px;border-bottom:2px solid #ede9fe;margin-bottom:10px;text-align:center}
+ul{padding-left:18px;font-size:13.5px}
+li{margin-bottom:6px}
+.note{color:#6b7280;font-size:12.5px;margin-top:8px;text-align:center}
+.qr{display:flex;justify-content:center;margin:16px 0 4px}
+.qrcode{width:210px;height:210px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:4px;}
+.qrcode img{width:100%;height:100%;object-fit:contain;border-radius:12px;}
+.warn{background:#fff;border:1px solid rgba(239,68,68,.32);border-radius:22px;color:#b91c1c;text-align:center;font-size:13px;padding:14px 16px;margin-top:18px;box-shadow:0 14px 30px -18px rgba(59,7,100,.45)}
+.warn b{color:#dc2626}
+.tagbox{text-align:center;margin-top:18px}
+.tagbox span{display:inline-block;background:rgba(255,255,255,.9);color:#6d28d9;border-radius:999px;padding:8px 16px;font-size:12.5px;box-shadow:0 10px 22px -16px rgba(59,7,100,.6)}
+footer{max-width:980px;margin:26px auto 34px;padding:0 20px}
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 8px 2px rgba(192,38,211,0.4),0 12px 26px rgba(124,58,237,.38);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 26px 10px rgba(192,38,211,0.72),0 14px 30px rgba(124,58,237,.48);
+        transform: scale(1.04);
+    }
+    100% {
+        box-shadow: 0 0 8px 2px rgba(192,38,211,0.4),0 12px 26px rgba(124,58,237,.38);
+        transform: scale(1);
+    }
+}
+@keyframes iconBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+footer a{
+    display:block;
+    background:linear-gradient(135deg,#db2777,#c026d3,#7c3aed);
+    background-size:200% 200%;
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    text-align:center;
+    padding:16px 14px;
+    border-radius:999px;
+    font-size:16px;
+    animation:pulseGlow 1.9s infinite ease-in-out;
+    transition:all 0.25s ease;
+}
+footer a .chatIcon{
+    display:inline-block;
+    animation:iconBounce 1s infinite ease-in-out;
+    margin-right:6px;
+}
+footer a:hover{
+    transform:scale(1.06);
+    filter:brightness(1.18);
+}
+footer a:active{
+    transform:scale(0.96);
+}
+@media(max-width:420px){
+    .wrap{padding:18px 14px 28px}
+    h2{font-size:18px}
+    footer{padding:0 14px}
+    footer a{font-size:15px;padding:14px 12px;}
+}
+</style>
+</head>
+<body>
+<div class="nav">
+<b>⚡ Emma</b>
+<span>
+<a href="index.html" data-lang="navIndex">主播政策</a>
+<a href="agency.html" data-lang="navAgency">公会政策</a>
+<a href="contact.html" class="on" data-lang="navContact">联系我们</a>
+</span>
+<select id="langSelect" class="lang-select">
+<option value="zh">中文</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="pt">Português</option>
+<option value="th">ภาษาไทย</option>
+<option value="ar">العربية</option>
+<option value="tr">Türkçe</option>
+<option value="id">Indonesia</option>
+</select>
+</div>
+<div class="wrap">
+<h2 data-lang="title1">📱 官方管理员二维码</h2>
+<div class="box">
+<div class="qr">
+  <div class="qrcode">
+    <img src="qrcode.png">
+  </div>
+</div>
+<h3 data-lang="qrTitle">官方管理员WhatsApp二维码</h3>
+<p class="note" data-lang="qrDesc">打开你的聊天软件，扫描二维码即可添加官方管理员。<br>我们 7*24 小时为主播和公会提供服务。</p>
+</div>
+<h2 data-lang="title2">💬 联系方式</h2>
+<div class="grid">
+<a class="card" href="https://wa.me/8615527931882" target="_blank"><i>💬</i><b data-lang="card1Title">WhatsApp</b><p data-lang="card1Text">官方管理员：点击跳转</p></a>
+<a class="card" href="index.html"><i>💃</i><b data-lang="card2Title">主播专区</b><p data-lang="card2Text">查看主播政策，开始赚钱</p></a>
+<a class="card" href="agency.html"><i>🏛</i><b data-lang="card3Title">公会专区</b><p data-lang="card3Text">查看公会政策，组建你的团队</p></a>
+</div>
+<h2 data-lang="title3">🕐 客服服务</h2>
+<div class="box">
+<ul>
+<li data-lang="li1">7*24 小时在线，随时解答你的问题</li>
+<li data-lang="li2">官方管理员协助你提升直播收益</li>
+<li data-lang="li3">请只通过以上官方渠道联系我们</li>
+</ul>
+</div>
+<div class="warn" data-lang="warnText">⚠ 谨防其他渠道冒充官方管理员。<b>官方管理员绝不会索要你的密码或验证码。</b></div>
+<div class="tagbox"><span data-lang="copyright">⚖ © 2026 Emma 运营团队 · 版权所有</span></div>
+</div>
+<footer>
+<a href="https://wa.me/8615527931882" target="_blank">
+<span class="chatIcon">💬</span>
+<span data-lang="footerBtn">联系官方管理员</span>
+</a>
+</footer>
+
+<script>
+const langData={
+zh:{
+navIndex:"主播政策",navAgency:"公会政策",navContact:"联系我们",
+title1:"📱 官方管理员二维码",
+qrTitle:"官方管理员WhatsApp二维码",
+qrDesc:"打开你的聊天软件，扫描二维码即可添加官方管理员。<br>我们 7*24 小时为主播和公会提供服务。",
+title2:"💬 联系方式",
+card1Title:"WhatsApp",card1Text:"官方管理员：点击跳转",
+card2Title:"主播专区",card2Text:"查看主播政策，开始赚钱",
+card3Title:"公会专区",card3Text:"查看公会政策，组建你的团队",
+title3:"🕐 客服服务",
+li1:"7*24 小时在线，随时解答你的问题",
+li2:"官方管理员协助你提升直播收益",
+li3:"请只通过以上官方渠道联系我们",
+warnText:"⚠ 谨防其他渠道冒充官方管理员。<b>官方管理员绝不会索要你的密码或验证码。</b>",
+copyright:"⚖ © 2026 Emma 运营团队 · 版权所有",
+footerBtn:"联系官方管理员"
+},
+en:{
+navIndex:"Host Policy",navAgency:"Agency Policy",navContact:"Contact Us",
+title1:"📱 Official Admin QR Code",
+qrTitle:"Official Admin WhatsApp QR",
+qrDesc:"Open your chat app and scan the QR to add the official admin.<br>We provide 24/7 service for hosts and agencies.",
+title2:"💬 Contact Info",
+card1Title:"WhatsApp",card1Text:"Official Admin: Click to open",
+card2Title:"Host Area",card2Text:"View host policy & start earning",
+card3Title:"Agency Area",card3Text:"View agency policy & build your team",
+title3:"🕐 Support Service",
+li1:"24/7 online, answer your questions anytime",
+li2:"Official admin helps you boost live income",
+li3:"Only contact us via the official links above",
+warnText:"⚠ Beware of fake admins on other channels. <b>Official staff will NEVER ask for your password or verification code.</b>",
+copyright:"⚖ © 2026 Emma Operation Team · All Rights Reserved",
+footerBtn:"Contact Official Admin"
+},
+es:{
+navIndex:"Política de Anfitriones",navAgency:"Política de Agencia",navContact:"Contáctenos",
+title1:"📱 Código QR del Admin Oficial",
+qrTitle:"QR WhatsApp del Administrador Oficial",
+qrDesc:"Abre tu app de chat y escanea el QR para agregar al admin oficial.<br>Brindamos servicio 24/7 para anfitriones y agencias.",
+title2:"💬 Información de Contacto",
+card1Title:"WhatsApp",card1Text:"Admin Oficial: Haz clic para abrir",
+card2Title:"Zona Anfitriones",card2Text:"Ver política y empezar a ganar",
+card3Title:"Zona Agencia",card3Text:"Ver política y crear tu equipo",
+title3:"🕐 Servicio de Soporte",
+li1:"Atención 24/7, resolvemos tus dudas en cualquier momento",
+li2:"El admin oficial te ayuda a aumentar tus ingresos en vivo",
+li3:"Contáctanos solo por los enlaces oficiales anteriores",
+warnText:"⚠ Cuidado con los administradores falsos en otros canales. <b>El personal oficial NUNCA te pedirá contraseña ni código de verificación.</b>",
+copyright:"⚖ © 2026 Equipo Emma · Todos los derechos reservados",
+footerBtn:"Contactar Admin Oficial"
+},
+pt:{
+navIndex:"Política de Hosts",navAgency:"Política de Agência",navContact:"Contate‑nos",
+title1:"📱 QR do Administrador Oficial",
+qrTitle:"QR WhatsApp do Administrador Oficial",
+qrDesc:"Abra seu app de chat e escaneie o QR para adicionar o admin oficial.<br>Atendimento 24/7 para hosts e agências.",
+title2:"💬 Informações de Contato",
+card1Title:"WhatsApp",card1Text:"Admin Oficial: Clique para abrir",
+card2Title:"Área de Hosts",card2Text:"Ver política e começar a ganhar",
+card3Title:"Área da Agência",card3Text:"Ver política e montar sua equipe",
+title3:"🕐 Atendimento",
+li1:"Online 24/7, respondemos suas dúvidas a qualquer hora",
+li2:"O admin oficial ajuda você a aumentar a renda ao vivo",
+li3:"Entre em contato apenas pelos links oficiais acima",
+warnText:"⚠ Cuidado com admins falsos em outros canais. <b>A equipe oficial NUNCA pede senha ou código de verificação.</b>",
+copyright:"⚖ © 2026 Equipe Emma · Todos os direitos reservados",
+footerBtn:"Falar com Admin Oficial"
+},
+th:{
+navIndex:"นโยบายโฮสต์",navAgency:"นโยบายเอเจนซี่",navContact:"ติดต่อเรา",
+title1:"📱 คิวอาร์โค้ดผู้ดูแลระบบ",
+qrTitle:"คิวอาร์ WhatsApp ผู้ดูแลระบบ",
+qrDesc:"เปิดแอปแชทแล้วสแกนคิวอาร์เพื่อเพิ่มผู้ดูแลระบบ<br>บริการ 24 ชั่วโมง ทุกวัน สำหรับโฮสต์และเอเจนซี่",
+title2:"💬 ช่องทางติดต่อ",
+card1Title:"WhatsApp",card1Text:"ผู้ดูแลระบบ: กดเพื่อเปิด",
+card2Title:"โซนโฮสต์",card2Text:"ดูนโยบายโฮสต์ เริ่มหารายได้",
+card3Title:"โซนเอเจนซี่",card3Text:"ดูนโยบายเอเจนซี่ สร้างทีมของคุณ",
+title3:"🕐 บริการลูกค้า",
+li1:"ออนไลน์ 24/7 ตอบคำถามได้ทุกเมื่อ",
+li2:"ผู้ดูแลระบบช่วยเพิ่มรายได้จากการไลฟ์",
+li3:"ติดต่อเราได้เฉพาะช่องทางทางการข้างต้น",
+warnText:"⚠ ระวังผู้แอบอ้างเป็นผู้ดูแลระบบ <b>ทีมงานทางการจะไม่ขอรหัสผ่านหรือรหัสยืนยันเด็ดขาด</b>",
+copyright:"⚖ © 2026 ทีมงาน Emma สงวนลิขสิทธิ์",
+footerBtn:"ติดต่อผู้ดูแลระบบ"
+},
+ar:{
+navIndex:"سياسة المضيفين",navAgency:"سياسة الوكالة",navContact:"اتصل بنا",
+title1:"📱 رمز QR للمسؤول الرسمي",
+qrTitle:"رمز QR واتساب المسؤول الرسمي",
+qrDesc:"افتح تطبيق الدردشة وامسح الرمز لإضافة المسؤول الرسمي<br>نقدم خدمة على مدار الساعة للمضيفين والوكالات",
+title2:"💬 معلومات التواصل",
+card1Title:"واتساب",card1Text:"المسؤول الرسمي: اضغط للفتح",
+card2Title:"منطقة المضيفين",card2Text:"عرض السياسة وابدأ في الكسب",
+card3Title:"منطقة الوكالة",card3Text:"عرض السياسة وابني فريقك",
+title3:"🕐 خدمة الدعم",
+li1:"متاحون 24/7، نجيب على أسئلتك في أي وقت",
+li2:"المسؤول الرسمي يساعدك على زيادة دخل البث المباشر",
+li3:"تواصل معنا فقط عبر الروابط الرسمية أعلاه",
+warnText:"⚠ احذر من المنتحلين في القنوات الأخرى. <b>الموظفون الرسميون لن يطلبوا أبداً كلمة المرور أو رمز التحقق.</b>",
+copyright:"⚖ © 2026 فريق Emma · جميع الحقوق محفوظة",
+footerBtn:"تواصل مع المسؤول الرسمي"
+},
+tr:{
+navIndex:"Ev Sahibi Politikası",navAgency:"Acenta Politikası",navContact:"Bize Ulaşın",
+title1:"📱 Resmi Yönetici QR Kodu",
+qrTitle:"Resmi Yönetici WhatsApp QR",
+qrDesc:"Sohbet uygulamanızı açın ve resmi yöneticiyi eklemek için QR'yi tarayın<br>Ev sahipleri ve acentalar için 7/24 hizmet",
+title2:"💬 İletişim Bilgileri",
+card1Title:"WhatsApp",card1Text:"Resmi Yönetici: Açmak için tıkla",
+card2Title:"Ev Sahibi Alanı",card2Text:"Politikayı gör ve kazanmaya başla",
+card3Title:"Acenta Alanı",card3Text:"Politikayı gör ve ekibini kur",
+title3:"🕐 Müşteri Hizmetleri",
+li1:"7/24 çevrimiçi, sorularınıza her zaman cevap veriyoruz",
+li2:"Resmi yönetici canlı yayın gelirinizi artırmanıza yardımcı olur",
+li3:"Bize yalnızca yukarıdaki resmi kanallardan ulaşın",
+warnText:"⚠ Diğer kanallardaki sahte yöneticilere dikkat edin. <b>Resmi personel asla şifrenizi veya doğrulama kodunuzu istemez.</b>",
+copyright:"⚖ © 2026 Emma Ekibi · Tüm hakları saklıdır",
+footerBtn:"Resmi Yöneticiyle İletişime Geç"
+},
+id:{
+navIndex:"Kebijakan Host",navAgency:"Kebijakan Agensi",navContact:"Hubungi Kami",
+title1:"📱 Kode QR Admin Resmi",
+qrTitle:"QR WhatsApp Admin Resmi",
+qrDesc:"Buka aplikasi chat dan scan QR untuk menambahkan admin resmi<br>Layanan 24/7 untuk host dan agensi",
+title2:"💬 Informasi Kontak",
+card1Title:"WhatsApp",card1Text:"Admin Resmi: Klik untuk buka",
+card2Title:"Area Host",card2Text:"Lihat kebijakan & mulai dapat penghasilan",
+card3Title:"Area Agensi",card3Text:"Lihat kebijakan & bangun tim kamu",
+title3:"🕐 Layanan Dukungan",
+li1:"Online 24/7, jawab pertanyaan kapan saja",
+li2:"Admin resmi bantu naikkan pendapatan live kamu",
+li3:"Hanya hubungi kami lewat link resmi di atas",
+warnText:"⚠ Waspada admin palsu di channel lain. <b>Petugas resmi TIDAK AKAN meminta password atau kode verifikasi.</b>",
+copyright:"⚖ © 2026 Tim Emma · Hak Cipta Dilindungi",
+footerBtn:"Hubungi Admin Resmi"
+}
+};
+
+// 更新页面所有文字
+function setLang(langKey){
+    const d = langData[langKey];
+    document.querySelectorAll('[data-lang]').forEach(el=>{
+        const key = el.getAttribute('data-lang');
+        el.innerHTML = d[key];
+    })
+    //阿拉伯语RTL
+    if(langKey === 'ar'){
+        document.body.setAttribute('dir','rtl');
+    }else{
+        document.body.setAttribute('dir','ltr');
+    }
+}
+
+//读取本地存储，默认英文
+let savedLang = localStorage.getItem('siteLang') || 'en';
+document.getElementById("langSelect").value = savedLang;
+setLang(savedLang);
+
+document.getElementById("langSelect").addEventListener("change",function(){
+    const selectedLang = this.value;
+    localStorage.setItem('siteLang', selectedLang);
+    setLang(selectedLang);
+});
+</script>
+</body>
+</html>
