@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Emma Host Policy</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #4b5563;
+    line-height: 1.65;
+    min-height: 100vh;
+    background-color: #6d28d9;
+    background-image:
+      radial-gradient(circle at 10% 4%, rgba(255,255,255,.10), rgba(255,255,255,0) 38%),
+      radial-gradient(circle at 92% 8%, rgba(189,221,254,.14), rgba(189,221,254,0) 40%),
+      radial-gradient(circle at 88% 92%, rgba(253,153,216,.24), rgba(253,153,216,0) 46%),
+      linear-gradient(160deg, #6626cd, #8338ea 32%, #9c29c4 64%, #c2479b);
+    background-size: auto, auto, auto, cover;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-attachment: fixed;
+  }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,.16);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    flex-wrap: wrap;
+  }
+  .nav b {
+    font-size: 17px;
+    text-shadow: 0 2px 8px rgba(59,7,100,.45);
+  }
+  .nav a {
+    color: #f5f0ff;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  .nav a.on {
+    background: #fff;
+    color: #7c3aed;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(59,7,100,.3);
+  }
+  .lang-select {
+    margin-left: auto;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: none;
+    background: #ffffff;
+    color: #000000;
+    outline: none;
+    z-index: 10;
+  }
+  .lang-select option {
+    background: #fff;
+    color: #000;
+  }
+  .lang-select option:checked {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 34px 20px 34px;
+  }
+  h2 {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    margin: 30px 0 16px;
+    text-shadow: 0 2px 14px rgba(70,10,110,.55);
+  }
+  h2:after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 3px;
+    margin: 10px auto 0;
+    border-radius: 4px;
+    background: linear-gradient(to right, #f0abfc, #fff);
+  }
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
+  }
+  .grid > * {
+    flex: 1 1 140px;
+    max-width: 340px;
+    min-width: 0;
+  }
+  .adv .card {
+    align-items: center;
+    text-align: center;
+  }
+  @media (min-width: 640px) {
+    .grid > * { flex-basis: 23%; }
+  }
+  @media (min-width: 1024px) {
+    .grid > * { flex-basis: 18.4%; }
+  }
+  .card {
+    background: #fff;
+    border: 1px solid rgba(124,58,237,.12);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 18px 32px -22px rgba(59,7,100,.55);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card i {
+    font-style: normal;
+    font-size: 22px;
+  }
+  .card p {
+    font-size: 13px;
+  }
+  .income .card b {
+    color: #3b0764;
+    font-size: 14px;
+  }
+  .income .card u {
+    margin-top: auto;
+    text-decoration: none;
+    background: linear-gradient(135deg, #f3e8ff, #fce7f3);
+    color: #7c3aed;
+    border: 1px solid rgba(124,58,237,.22);
+    border-radius: 12px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .rate {
+    text-align: center;
+    background: #faf5ff;
+    border: 1px solid rgba(124,58,237,.22);
+    border-radius: 14px;
+    padding: 12px;
+    color: #6d28d9;
+    font-weight: 700;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+  .box {
+    background: #fff;
+    border: 1px solid rgba(124,58,237,.12);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 18px 32px -22px rgba(59,7,100,.55);
+    margin-top: 6px;
+  }
+  .box h3 {
+    color: #3b0764;
+    font-size: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ede9fe;
+    margin-bottom: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  th {
+    background: #f5f3ff;
+    color: #5b21b6;
+    padding: 9px;
+    text-align: left;
+    border-bottom: 2px solid rgba(124,58,237,.25);
+  }
+  td {
+    padding: 8px 9px;
+    border-bottom: 1px solid #ede9fe;
+    color: #374151;
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+  .hi {
+    background: #fdf2f8;
+  }
+  .hi td {
+    color: #be185d;
+    font-weight: 700;
+  }
+  .note {
+    color: #6b7280;
+    font-size: 12px;
+    margin: 8px 0 14px;
+  }
+  ul {
+    padding-left: 18px;
+    font-size: 13.5px;
+  }
+  li {
+    margin-bottom: 6px;
+  }
+  .two {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .tagbox {
+    text-align: center;
+  }
+  .tagbox span {
+    display: inline-block;
+    background: rgba(255,255,255,.9);
+    color: #6d28d9;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 12.5px;
+    box-shadow: 0 10px 22px -16px rgba(59,7,100,.6);
+  }
+  .tutorial {
+    background: #fff;
+    border: 1px solid rgba(124,58,237,.12);
+    border-radius: 22px;
+    padding: 22px;
+    box-shadow: 0 18px 32px -22px rgba(59,7,100,.55);
+    margin-top: 14px;
+  }
+  .tutorial p.lead {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+  .step-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .step-item {
+    background: linear-gradient(135deg, #faf5ff, #fdf2f8);
+    border: 1px solid rgba(124,58,237,.18);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #c026d3);
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .step-text {
+    font-size: 13px;
+    color: #374151;
+  }
+  .step-text b {
+    color: #7c3aed;
+  }
+  .tip {
+    margin-top: 14px;
+    background: #faf5ff;
+    border: 1px dashed rgba(124,58,237,.35);
+    border-radius: 14px;
+    padding: 12px;
+    color: #4c1d95;
+    font-size: 13px;
+  }
+  .tip b {
+    color: #be185d;
+  }
+  footer {
+    max-width: 980px;
+    margin: 26px auto 34px;
+    padding: 0 20px;
+  }
+  footer a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #c026d3, #7c3aed, #4f46e5);
+    background-size: 200% 200%;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 15px 18px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 0 rgba(216,70,220,.75);
+    animation: btnGlow 1.4s infinite ease-in-out, btnGradient 3s infinite ease;
+    transition: transform .25s ease, box-shadow .25s ease;
+    overflow: hidden;
+  }
+  footer a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    padding: 2px;
+    background: linear-gradient(120deg, #fff, #f0abfc, #c084fc, #fff);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderMove 2.4s linear infinite;
+    pointer-events: none;
+    opacity: .85;
+  }
+  footer a .rocket {
+    display: inline-block;
+    animation: rocketJump .6s infinite ease-in-out;
+    font-size: 18px;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,.9));
+  }
+  footer a:hover {
+    transform: scale(1.06);
+    box-shadow: 0 10px 40px rgba(216,70,220,.85);
+  }
+  footer a:hover .rocket {
+    animation: rocketFly .4s infinite ease-in-out;
+  }
+  @keyframes btnGlow {
+    0% { box-shadow: 0 0 0 0 rgba(216,70,220,.75); }
+    40% { box-shadow: 0 0 0 14px rgba(216,70,220,0); }
+    100% { box-shadow: 0 0 0 0 rgba(216,70,220,0); }
+  }
+  @keyframes btnGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes borderMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  @keyframes rocketJump {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-4px) rotate(10deg); }
+  }
+  @keyframes rocketFly {
+    0%, 100% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(4px) scale(1.12); }
+  }
+  @media (max-width: 420px) {
+    .wrap { padding: 18px 14px 28px; }
+    h2 { font-size: 18px; }
+    footer { padding: 0 14px; }
+    footer a { font-size: 14px; padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="nav">
+  <b>⚡ Emma</b>
+  <span>
+    <a href="index.html" class="on" data-i18n="nav_host">Host Policy</a>
+    <a href="agency.html" data-i18n="nav_agency">Agency Policy</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact Us</a>
+  </span>
+  <select class="lang-select" id="langSelect">
+    <option value="zh">中文</option>
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="pt">Português</option>
+    <option value="th">ภาษาไทย</option>
+    <option value="ar">العربية</option>
+    <option value="tr">Türkçe</option>
+    <option value="id">Indonesia</option>
+  </select>
+</div>
+
+<div class="wrap">
+  <h2 data-i18n="title_why">💫 Why choose Emma</h2>
+
+  <div class="grid adv">
+    <div class="card"><i>🌍</i><p data-i18n="adv1">Global users, including high-value users from Europe, America and the Middle East</p></div>
+    <div class="card"><i>👥</i><p data-i18n="adv2">Massive user base, hundreds of thousands of daily active users</p></div>
+    <div class="card"><i>💰</i><p data-i18n="adv3">Multiple income models, suitable for hosts of all levels</p></div>
+    <div class="card"><i>⚡</i><p data-i18n="adv4">Withdraw anytime, payment arrives quickly</p></div>
+    <div class="card"><i>📊</i><p data-i18n="adv5">Transparent data, clearly displayed in the APP</p></div>
+    <div class="card"><i>🛡</i><p data-i18n="adv6">Standardized management, no arbitrary penalties</p></div>
+    <div class="card"><i>🗣</i><p data-i18n="adv7">Global language coverage, supported by AI translation</p></div>
+    <div class="card"><i>🧑‍💼</i><p data-i18n="adv8">Official administrators online to help increase earnings</p></div>
+    <div class="card"><i>🕐</i><p data-i18n="adv9">7*24 customer service online, ready to handle issues</p></div>
+    <div class="card"><i>🤝</i><p data-i18n="adv10">Fair and friendly atmosphere in the APP</p></div>
+  </div>
+
+  <h2 data-i18n="title_income">💰 Emma Income Model</h2>
+  <p style="text-align:center;color:#fff;font-size:14px;margin:-6px 0 14px;text-shadow:0 2px 12px rgba(70,10,110,.5)" data-i18n="income_sub">Multiple income models, suitable for hosts of different levels</p>
+
+  <div class="grid income">
+    <div class="card"><i>📺</i><b data-i18n="inc1_name">Live Stream</b><p data-i18n="inc1_desc">Live base salary up to $60/week, commission up to 42%</p><u data-i18n="inc1_tag">Base $60/week · Commission 42%</u></div>
+    <div class="card"><i>📹</i><b data-i18n="inc2_name">1V1 Video Call</b><p data-i18n="inc2_desc">Unlocked by star level, higher star brings higher earnings</p><u data-i18n="inc2_tag">Up to 6666 coins/min</u></div>
+    <div class="card"><i>🎲</i><b data-i18n="inc3_name">Match Video Call</b><p data-i18n="inc3_desc">Random match with global users, quickly accumulate fans</p><u data-i18n="inc3_tag">30 coins for the first 20 seconds, then 240 coins/min</u></div>
+    <div class="card"><i>🆓</i><b data-i18n="inc4_name">Free Call</b><p data-i18n="inc4_desc">Free for users, with platform subsidy</p><u data-i18n="inc4_tag">150 coins/min</u></div>
+    <div class="card"><i>💌</i><b data-i18n="inc5_name">Private Chat</b><p data-i18n="inc5_desc">Chat one-on-one with users, more messages bring more earnings</p><u data-i18n="inc5_tag">5 coins per message</u></div>
+    <div class="card"><i>🎁</i><b data-i18n="inc6_name">Gifts</b><p data-i18n="inc6_desc">Gift entry available in live, video call, match and profile</p><u data-i18n="inc6_tag">Lucky gifts double your income</u></div>
+    <div class="card"><i>🖼</i><b data-i18n="inc7_name">Onlyfans Income</b><p data-i18n="inc7_desc">Upload exclusive photos or videos, users pay to unlock</p><u data-i18n="inc7_tag">400 coins per photo or video</u></div>
+    <div class="card"><i>✅</i><b data-i18n="inc8_name">Task Bonus</b><p data-i18n="inc8_desc">Complete daily tasks to get extra rewards</p><u data-i18n="inc8_tag">Up to $15/day</u></div>
+    <div class="card"><i>👨‍👩‍👧</i><b data-i18n="inc9_name">Referral Reward</b><p data-i18n="inc9_desc">Refer a user: you get 1000 coins when they recharge 10,000 coins; refer a host: you can get up to 20,000 coins after they earn 7,000 coins</p><u data-i18n="inc9_tag">Up to 20,000 coins</u></div>
+    <div class="card"><i>🤝</i><b data-i18n="inc10_name">Become an Agency</b><p data-i18n="inc10_desc">Become both a Host and an Agency at the same time, and earn double income</p><u data-i18n="inc10_tag">Double Income</u></div>
+  </div>
+
+  <div class="rate" data-i18n="rate_text">💱 Exchange rate: 6666 coins = 1 USD</div>
+
+  <h2 data-i18n="title_cert">🎬 Host Verification Process</h2>
+
+  <div class="tutorial">
+    <p class="lead" data-i18n="cert_sub">Help you join successfully</p>
+
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text"><b data-i18n="s1">Enter invitation code</b></div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text"><b data-i18n="s2">Fill in personal information</b></div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text"><b data-i18n="s3">Pass face recognition</b></div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <b data-i18n="s4">Start a trial live: The system will assign 20 one-minute calls. If 5 calls last more than 50 seconds, the trial live is passed.</b>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-text"><b data-i18n="s5">Receive 5000 coins after completing the trial</b></div>
+      </div>
+    </div>
+
+    <div class="tip" data-i18n="tip_text">
+      💡 Tip: The trial reward is not issued automatically; it will be sent only after you pass the trial.
+    </div>
+  </div>
+
+  <h2 data-i18n="title_star">📊 1V1 Video Call · Star Level Earnings</h2>
+
+  <div class="box">
+    <table>
+      <tr>
+        <th data-i18n="t1">Star</th>
+        <th data-i18n="t2">Earnings per minute</th>
+        <th data-i18n="t3">Star</th>
+        <th data-i18n="t4">Recent 7-day income (coins)</th>
+      </tr>
+      <tr><td>★ 0</td><td>240 coins</td><td>★ 0</td><td>0</td></tr>
+      <tr><td>★ 1</td><td>240 coins</td><td>★ 1</td><td>300</td></tr>
+      <tr><td>★ 2</td><td>360 coins</td><td>★ 2</td><td>1,000</td></tr>
+      <tr><td>★ 3</td><td>420 coins</td><td>★ 3</td><td>2,000</td></tr>
+      <tr><td>★ 4</td><td>540 coins</td><td>★ 4</td><td>3,000</td></tr>
+      <tr><td>★ 5</td><td>660 coins</td><td>★ 5</td><td>4,000</td></tr>
+      <tr><td>★ 6</td><td>780 coins</td><td>★ 6</td><td>5,000</td></tr>
+      <tr><td>★ 7</td><td>1,020 coins</td><td>★ 7</td><td>70,000</td></tr>
+      <tr><td>★ 8</td><td>2,040 coins</td><td>★ 8</td><td>250,000</td></tr>
+      <tr><td>★ 9</td><td>3,330 coins</td><td>★ 9</td><td>1,000,000</td></tr>
+      <tr class="hi"><td>★ 10</td><td>6,666 coins</td><td>★ 10</td><td>5,000,000</td></tr>
+    </table>
+    <p class="note" data-i18n="star_note">Star level is determined by your income in the most recent 7 days.</p>
+  </div>
+
+  <h2 data-i18n="title_rule">💳 Withdrawal Rules &nbsp;·&nbsp; 📋 Host Requirements</h2>
+
+  <div class="two">
+    <div class="box">
+      <h3 data-i18n="withdraw_title">💳 Withdrawal Rules</h3>
+      <ul>
+        <li><b data-i18n="w1">Withdraw anytime:</b><span data-i18n="w1_txt">Available every day</span></li>
+        <li><b data-i18n="w2">Minimum limit:</b><span data-i18n="w2_txt">70,000 coins minimum</span></li>
+        <li><b data-i18n="w3">Fast payment:</b><span data-i18n="w3_txt">Automatic review and automatic transfer</span></li>
+        <li><b data-i18n="w4">Local payment:</b><span data-i18n="w4_txt">Supports 100+ payment methods</span></li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3 data-i18n="hostreq_title">📋 Host Requirements</h3>
+      <ul>
+        <li data-i18n="h1">Female, 18‑40 years old, good appearance</li>
+        <li data-i18n="h2">Must appear in real person, in a private and quiet environment</li>
+        <li data-i18n="h3">Active interaction, comply with platform safety rules</li>
+        <li data-i18n="h4">No personal information required, earn anonymously</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tagbox"><span data-i18n="copyright">⚖ © 2026 Emma Operations Team · All rights reserved</span></div>
+</div>
+
+<footer>
+  <a href="https://guild.selalive.com/#/download/?code=6745f002" target="_blank">
+    <span class="rocket">🚀</span>
+    <span data-i18n="download_btn">Download & Register Now</span>
+  </a>
+</footer>
+
+<script>
+  const translations = {
+    zh: {
+      nav_host: "主播政策",
+      nav_agency: "公会政策",
+      nav_contact: "联系我们",
+      title_why: "💫 为什么选择 Emma",
+      adv1: "全球用户，更有欧美、中东等高价值用户",
+      adv2: "海量用户，日活用户几十万",
+      adv3: "多种收入模式，适合不同能力的主播",
+      adv4: "随时提现，随时到账",
+      adv5: "数据透明，APP 直观展示",
+      adv6: "管理规范，不会随意处罚",
+      adv7: "全球语言覆盖，更有 AI 翻译助力",
+      adv8: "官方管理员在线协助，助力收益提升",
+      adv9: "7*24 小时客服在线，随时处理问题",
+      adv10: "APP 氛围公平友好",
+      title_income: "💰 Emma 收入模式",
+      income_sub: "多种收入模式，适合不同能力的主播",
+      inc1_name: "直播",
+      inc1_desc: "直播底薪高达 60 美金/周，提成高达 42%",
+      inc1_tag: "底薪 $60/周 · 提成 42%",
+      inc2_name: "1V1 视频通话",
+      inc2_desc: "按星级解锁，星级越高收益越高",
+      inc2_tag: "最高 6666 coins/分钟",
+      inc3_name: "匹配视频通话",
+      inc3_desc: "随机匹配全球用户，快速积累粉丝",
+      inc3_tag: "前 20 秒 30 coins，之后 240 coins/分钟",
+      inc4_name: "免费通话",
+      inc4_desc: "用户通话免费，平台补贴",
+      inc4_tag: "150 coins/分钟",
+      inc5_name: "私聊",
+      inc5_desc: "与用户一对一聊天，消息越多收益越多",
+      inc5_tag: "5 coins/条",
+      inc6_name: "礼物",
+      inc6_desc: "直播、视频通话、匹配、个人主页都有送礼入口",
+      inc6_tag: "幸运礼物收益翻倍",
+      inc7_name: "Onlyfans 收入",
+      inc7_desc: "上传专属照片或视频，用户付费解锁",
+      inc7_tag: "400 coins/张或视频",
+      inc8_name: "任务奖金",
+      inc8_desc: "完成每日任务即可获得额外奖励",
+      inc8_tag: "高达 15 美金/天",
+      inc9_name: "邀请奖励",
+      inc9_desc: "邀请用户：对方每充值 1 万金币，你得 1000 金币；邀请主播：对方赚满 7000 金币后你最高得 20000 coins",
+      inc9_tag: "最高 20000 coins",
+      inc10_name: "成为 Agency",
+      inc10_desc: "同时成为 Host 和 Agency，获得双份收入",
+      inc10_tag: "双份收入",
+      rate_text: "💱 汇率：6666 coins = 1 美金",
+      title_cert: "🎬 女孩认证流程",
+      cert_sub: "帮助你成功加入",
+      s1: "输入邀请码",
+      s2: "填写个人资料",
+      s3: "通过面部识别",
+      s4: "进行试播：系统会分配 20 通 1 分钟的通话，只要有 5 通超过 50 秒的通话，就算试播通过。",
+      s5: "试播完成赠送 5000 金币",
+      tip_text: "💡 提示：试播奖励不是自动发放，需要试播通过后才会赠送。",
+      title_star: "📊 1V1 视频通话 · 星级收益",
+      t1: "星级",
+      t2: "每分钟收益",
+      t3: "星级",
+      t4: "最近 7 天收入（金币）",
+      star_note: "星级评定方式：取决于最近 7 天的收入。",
+      title_rule: "💳 提现规则 · 📋 Host 要求",
+      withdraw_title: "💳 提现规则",
+      w1: "随时提现：",
+      w1_txt: "每天均可操作",
+      w2: "最低限额：",
+      w2_txt: "70,000 硬币起提",
+      w3: "快速到账：",
+      w3_txt: "系统自动审核自动打款",
+      w4: "本地收款：",
+      w4_txt: "支持 100+ 种收款方式",
+      hostreq_title: "📋 Host 要求",
+      h1: "18‑40 岁女性，形象良好",
+      h2: "需真人出镜，环境私密安静",
+      h3: "积极互动，遵守平台安全规则",
+      h4: "无需个人资料，匿名赚钱",
+      copyright: "⚖ © 2026 Emma 运营团队 · 政策解释权所有",
+      download_btn: "立即下载注册"
+    },
+    en: {
+      nav_host: "Host Policy",
+      nav_agency: "Agency Policy",
+      nav_contact: "Contact Us",
+      title_why: "💫 Why choose Emma",
+      adv1: "Global users, including high-value users from Europe, America and the Middle East",
+      adv2: "Massive user base, hundreds of thousands of daily active users",
+      adv3: "Multiple income models, suitable for hosts of all levels",
+      adv4: "Withdraw anytime, payment arrives quickly",
+      adv5: "Transparent data, clearly displayed in the APP",
+      adv6: "Standardized management, no arbitrary penalties",
+      adv7: "Global language coverage, supported by AI translation",
+      adv8: "Official administrators online to help increase earnings",
+      adv9: "7*24 customer service online, ready to handle issues",
+      adv10: "Fair and friendly atmosphere in the APP",
+      title_income: "💰 Emma Income Model",
+      income_sub: "Multiple income models, suitable for hosts of different levels",
+      inc1_name: "Live Stream",
+      inc1_desc: "Live base salary up to $60/week, commission up to 42%",
+      inc1_tag: "Base $60/week · Commission 42%",
+      inc2_name: "1V1 Video Call",
+      inc2_desc: "Unlocked by star level, higher star brings higher earnings",
+      inc2_tag: "Up to 6666 coins/min",
+      inc3_name: "Match Video Call",
+      inc3_desc: "Random match with global users, quickly accumulate fans",
+      inc3_tag: "30 coins for the first 20 seconds, then 240 coins/min",
+      inc4_name: "Free Call",
+      inc4_desc: "Free for users, with platform subsidy",
+      inc4_tag: "150 coins/min",
+      inc5_name: "Private Chat",
+      inc5_desc: "Chat one-on-one with users, more messages bring more earnings",
+      inc5_tag: "5 coins per message",
+      inc6_name: "Gifts",
+      inc6_desc: "Gift entry available in live, video call, match and profile",
+      inc6_tag: "Lucky gifts double your income",
+      inc7_name: "Onlyfans Income",
+      inc7_desc: "Upload exclusive photos or videos, users pay to unlock",
+      inc7_tag: "400 coins per photo or video",
+      inc8_name: "Task Bonus",
+      inc8_desc: "Complete daily tasks to get extra rewards",
+      inc8_tag: "Up to $15/day",
+      inc9_name: "Referral Reward",
+      inc9_desc: "Refer a user: you get 1000 coins when they recharge 10,000 coins; refer a host: you can get up to 20,000 coins after they earn 7,000 coins",
+      inc9_tag: "Up to 20,000 coins",
+      inc10_name: "Become an Agency",
+      inc10_desc: "Become both a Host and an Agency at the same time, and earn double income",
+      inc10_tag: "Double Income",
+      rate_text: "💱 Exchange rate: 6666 coins = 1 USD",
+      title_cert: "🎬 Host Verification Process",
+      cert_sub: "Help you join successfully",
+      s1: "Enter invitation code",
+      s2: "Fill in personal information",
+      s3: "Pass face recognition",
+      s4: "Start a trial live: The system will assign 20 one-minute calls. If 5 calls last more than 50 seconds, the trial live is passed.",
+      s5: "Receive 5000 coins after completing the trial",
+      tip_text: "💡 Tip: The trial reward is not issued automatically; it will be sent only after you pass the trial.",
+      title_star: "📊 1V1 Video Call · Star Level Earnings",
+      t1: "Star",
+      t2: "Earnings per minute",
+      t3: "Star",
+      t4: "Recent 7-day income (coins)",
+      star_note: "Star level is determined by your income in the most recent 7 days.",
+      title_rule: "💳 Withdrawal Rules &nbsp;·&nbsp; 📋 Host Requirements",
+      withdraw_title: "💳 Withdrawal Rules",
+      w1: "Withdraw anytime:",
+      w1_txt: "Available every day",
+      w2: "Minimum limit:",
+      w2_txt: "70,000 coins minimum",
+      w3: "Fast payment:",
+      w3_txt: "Automatic review and automatic transfer",
+      w4: "Local payment:",
+      w4_txt: "Supports 100+ payment methods",
+      hostreq_title: "📋 Host Requirements",
+      h1: "Female, 18‑40 years old, good appearance",
+      h2: "Must appear in real person, in a private and quiet environment",
+      h3: "Active interaction, comply with platform safety rules",
+      h4: "No personal information required, earn anonymously",
+      copyright: "⚖ © 2026 Emma Operations Team · All rights reserved",
+      download_btn: "Download & Register Now"
+    },
+    es: {
+      nav_host: "Política de Host",
+      nav_agency: "Política de Agencia",
+      nav_contact: "Contáctenos",
+      title_why: "💫 Por qué elegir Emma",
+      adv1: "Usuarios globales, con usuarios de alto valor de Europa, América y Oriente Medio",
+      adv2: "Base masiva de usuarios, cientos de miles de usuarios activos diarios",
+      adv3: "Múltiples modelos de ingresos, adecuados para hosts de todos los niveles",
+      adv4: "Retira en cualquier momento, el pago llega rápido",
+      adv5: "Datos transparentes, claramente visibles en la APP",
+      adv6: "Gestión estandarizada, sin sanciones arbitrarias",
+      adv7: "Cobertura global de idiomas, con apoyo de traducción IA",
+      adv8: "Administradores oficiales en línea para ayudar a aumentar los ingresos",
+      adv9: "Atención al cliente 7*24 en línea, lista para resolver problemas",
+      adv10: "Ambiente justo y amigable en la APP",
+      title_income: "💰 Modelo de ingresos Emma",
+      income_sub: "Múltiples modelos de ingresos, adecuados para hosts de diferentes niveles",
+      inc1_name: "Transmisión en vivo",
+      inc1_desc: "Sueldo base de hasta $60/semana, comisión de hasta 42%",
+      inc1_tag: "Base $60/semana · Comisión 42%",
+      inc2_name: "Videollamada 1V1",
+      inc2_desc: "Desbloqueo por nivel de estrella, una estrella más alta genera mayores ingresos",
+      inc2_tag: "Hasta 6666 coins/min",
+      inc3_name: "Videollamada de coincidencia",
+      inc3_desc: "Coincidencia aleatoria con usuarios globales, acumular fans rápidamente",
+      inc3_tag: "30 coins los primeros 20 segundos, luego 240 coins/min",
+      inc4_name: "Llamada gratuita",
+      inc4_desc: "Gratis para los usuarios, con subsidio de la plataforma",
+      inc4_tag: "150 coins/min",
+      inc5_name: "Chat privado",
+      inc5_desc: "Chatea uno a uno con los usuarios, más mensajes generan más ingresos",
+      inc5_tag: "5 coins por mensaje",
+      inc6_name: "Regalos",
+      inc6_desc: "Entrada de regalos disponible en vivo, videollamada, coincidencia y perfil",
+      inc6_tag: "Los regalos de la suerte duplican tus ingresos",
+      inc7_name: "Ingresos tipo Onlyfans",
+      inc7_desc: "Sube fotos o videos exclusivos, los usuarios pagan para desbloquear",
+      inc7_tag: "400 coins por foto o video",
+      inc8_name: "Bono de tareas",
+      inc8_desc: "Completa las tareas diarias para obtener recompensas extra",
+      inc8_tag: "Hasta $15/día",
+      inc9_name: "Recompensa por referidos",
+      inc9_desc: "Referir un usuario: obtienes 1000 coins cuando recarga 10,000 coins; referir un host: puedes obtener hasta 20,000 coins después de que gane 7,000 coins",
+      inc9_tag: "Hasta 20,000 coins",
+      inc10_name: "Convertirse en Agencia",
+      inc10_desc: "Conviértete tanto en Host como en Agencia al mismo tiempo, y gana el doble de ingresos",
+      inc10_tag: "Doble Ingreso",
+      rate_text: "💱 Tipo de cambio: 6666 coins = 1 USD",
+      title_cert: "🎬 Proceso de verificación de Host",
+      cert_sub: "Ayudarte a unirte con éxito",
+      s1: "Ingresar código de invitación",
+      s2: "Completar información personal",
+      s3: "Pasar reconocimiento facial",
+      s4: "Iniciar transmisión de prueba: El sistema asignará 20 llamadas de un minuto. Si 5 llamadas duran más de 50 segundos, la transmisión de prueba se aprueba.",
+      s5: "Recibir 5000 coins después de completar la prueba",
+      tip_text: "💡 Consejo: La recompensa de prueba no se emite automáticamente; se enviará solo después de que pases la prueba.",
+      title_star: "📊 Videollamada 1V1 · Ingresos por nivel de estrella",
+      t1: "Estrella",
+      t2: "Ingresos por minuto",
+      t3: "Estrella",
+      t4: "Ingresos recientes de 7 días (coins)",
+      star_note: "El nivel de estrella se determina por tus ingresos en los últimos 7 días.",
+      title_rule: "💳 Reglas de retiro &nbsp;·&nbsp; 📋 Requisitos de Host",
+      withdraw_title: "💳 Reglas de retiro",
+      w1: "Retirar en cualquier momento:",
+      w1_txt: "Disponible todos los días",
+      w2: "Límite mínimo:",
+      w2_txt: "Mínimo 70,000 coins",
+      w3: "Pago rápido:",
+      w3_txt: "Revisión automática y transferencia automática",
+      w4: "Pago local:",
+      w4_txt: "Soporta más de 100 métodos de pago",
+      hostreq_title: "📋 Requisitos de Host",
+      h1: "Mujer, 18‑40 años, buena apariencia",
+      h2: "Debe aparecer en persona real, en un entorno privado y tranquilo",
+      h3: "Interacción activa, cumplir con las normas de seguridad de la plataforma",
+      h4: "No se requiere información personal, gana de forma anónima",
+      copyright: "⚖ © 2026 Equipo de Operaciones Emma · Todos los derechos reservados",
+      download_btn: "Descargar y Registrarse Ahora"
+    },
+    pt: {
+      nav_host: "Política de Host",
+      nav_agency: "Política de Agência",
+      nav_contact: "Fale Conosco",
+      title_why: "💫 Por que escolher a Emma",
+      adv1: "Usuários globais, incluindo usuários de alto valor da Europa, América e Oriente Médio",
+      adv2: "Base massiva de usuários, centenas de milhares de usuários ativos diariamente",
+      adv3: "Múltiplos modelos de renda, adequados para hosts de todos os níveis",
+      adv4: "Saque a qualquer momento, o pagamento chega rapidamente",
+      adv5: "Dados transparentes, claramente exibidos no APP",
+      adv6: "Gestão padronizada, sem penalidades arbitrárias",
+      adv7: "Cobertura global de idiomas, com apoio de tradução por IA",
+      adv8: "Administradores oficiais online para ajudar a aumentar os ganhos",
+      adv9: "Atendimento 7*24 online, pronto para resolver problemas",
+      adv10: "Ambiente justo e amigável no APP",
+      title_income: "💰 Modelo de Renda Emma",
+      income_sub: "Múltiplos modelos de renda, adequados para hosts de diferentes níveis",
+      inc1_name: "Live Stream",
+      inc1_desc: "Salário base de live de até $60/semana, comissão de até 42%",
+      inc1_tag: "Base $60/semana · Comissão 42%",
+      inc2_name: "Video Chamada 1V1",
+      inc2_desc: "Desbloqueado por nível de estrela, estrela mais alta traz maiores ganhos",
+      inc2_tag: "Até 6666 coins/min",
+      inc3_name: "Video Chamada de Match",
+      inc3_desc: "Match aleatório com usuários globais, acumular fãs rapidamente",
+      inc3_tag: "30 coins nos primeiros 20 segundos, depois 240 coins/min",
+      inc4_name: "Chamada Gratuita",
+      inc4_desc: "Gratuita para os usuários, com subsídio da plataforma",
+      inc4_tag: "150 coins/min",
+      inc5_name: "Chat Privado",
+      inc5_desc: "Converse um a um com os usuários, mais mensagens geram mais ganhos",
+      inc5_tag: "5 coins por mensagem",
+      inc6_name: "Presentes",
+      inc6_desc: "Entrada de presentes disponível em live, video chamada, match e perfil",
+      inc6_tag: "Presentes da sorte dobram sua renda",
+      inc7_name: "Renda Onlyfans",
+      inc7_desc: "Envie fotos ou vídeos exclusivos, os usuários pagam para desbloquear",
+      inc7_tag: "400 coins por foto ou vídeo",
+      inc8_name: "Bônus de Tarefas",
+      inc8_desc: "Complete tarefas diárias para obter recompensas extras",
+      inc8_tag: "Até $15/dia",
+      inc9_name: "Recompensa por Indicação",
+      inc9_desc: "Indique um usuário: você ganha 1000 coins quando ele recarrega 10.000 coins; indique um host: você pode ganhar até 20.000 coins depois que ele ganhar 7.000 coins",
+      inc9_tag: "Até 20.000 coins",
+      inc10_name: "Tornar-se uma Agência",
+      inc10_desc: "Torne-se tanto Host quanto Agência ao mesmo tempo e ganhe o dobro de renda",
+      inc10_tag: "Renda Dupla",
+      rate_text: "💱 Taxa de câmbio: 6666 coins = 1 USD",
+      title_cert: "🎬 Processo de Verificação de Host",
+      cert_sub: "Ajudar você a ingressar com sucesso",
+      s1: "Digitar código de convite",
+      s2: "Preencher informações pessoais",
+      s3: "Passar reconhecimento facial",
+      s4: "Iniciar live de teste: O sistema atribuirá 20 chamadas de um minuto. Se 5 chamadas durarem mais de 50 segundos, a live de teste é aprovada.",
+      s5: "Receber 5000 coins após completar o teste",
+      tip_text: "💡 Dica: A recompensa do teste não é emitida automaticamente; será enviada apenas depois que você passar.",
+      title_star: "📊 Video Chamada 1V1 · Ganhos por Nível de Estrela",
+      t1: "Estrela",
+      t2: "Ganhos por minuto",
+      t3: "Estrela",
+      t4: "Renda recente de 7 dias (coins)",
+      star_note: "O nível de estrela é determinado pela sua renda nos últimos 7 dias.",
+      title_rule: "💳 Regras de Saque &nbsp;·&nbsp; 📋 Requisitos de Host",
+      withdraw_title: "💳 Regras de Saque",
+      w1: "Saques a qualquer momento:",
+      w1_txt: "Disponível todos os dias",
+      w2: "Limite mínimo:",
+      w2_txt: "Mínimo de 70.000 coins",
+      w3: "Pagamento rápido:",
+      w3_txt: "Revisão automática e transferência automática",
+      w4: "Pagamento local:",
+      w4_txt: "Suporta mais de 100 métodos de pagamento",
+      hostreq_title: "📋 Requisitos de Host",
+      h1: "Mulher, 18‑40 anos, boa aparência",
+      h2: "Deve aparecer em pessoa real, em ambiente privado e tranquilo",
+      h3: "Interação ativa, cumprir as regras de segurança da plataforma",
+      h4: "Não é necessário informação pessoal, ganhe de forma anônima",
+      copyright: "⚖ © 2026 Equipe de Operações Emma · Todos os direitos reservados",
+      download_btn: "Baixar e Registrar Agora"
+    },
+    th: {
+      nav_host: "นโยบาย Host",
+      nav_agency: "นโยบาย Agency",
+      nav_contact: "ติดต่อเรา",
+      title_why: "💫 ทำไมต้องเลือก Emma",
+      adv1: "ผู้ใช้ทั่วโลก รวมถึงผู้ใช้มูลค่าสูงจากยุโรป อเมริกา และตะวันออกกลาง",
+      adv2: "ฐานผู้ใช้จำนวนมาก ผู้ใช้งานรายวันหลายแสนคน",
+      adv3: "รูปแบบรายได้หลายแบบ เหมาะสำหรับ Host ทุกระดับ",
+      adv4: "ถอนเงินได้ตลอดเวลา เงินเข้าบัญชีรวดเร็ว",
+      adv5: "ข้อมูลโปร่งใส แสดงอย่างชัดเจนในแอป",
+      adv6: "การจัดการมีมาตรฐาน ไม่มีการลงโทษโดยพลการ",
+      adv7: "ครอบคลุมภาษาทั่วโลก พร้อมความช่วยเหลือจาก AI แปลภาษา",
+      adv8: "ผู้ดูแลทางการออนไลน์ พร้อมช่วยเพิ่มรายได้",
+      adv9: "บริการลูกค้า 7*24 ออนไลน์ พร้อมจัดการปัญหา",
+      adv10: "บรรยากาศยุติธรรมและเป็นมิตรในแอป",
+      title_income: "💰 รูปแบบรายได้ Emma",
+      income_sub: "รูปแบบรายได้หลายแบบ เหมาะสำหรับ Host แต่ละระดับ",
+      inc1_name: "Live Stream",
+      inc1_desc: "เงินเดือนฐานของ Live สูงถึง $60/สัปดาห์ คอมมิชชันสูงถึง 42%",
+      inc1_tag: "ฐาน $60/สัปดาห์ · คอมมิชชัน 42%",
+      inc2_name: "1V1 Video Call",
+      inc2_desc: "ปลดล็อกตามระดับดาว ดาวยิ่งสูง รายได้ยิ่งมาก",
+      inc2_tag: "สูงสุด 6666 coins/นาที",
+      inc3_name: "Match Video Call",
+      inc3_desc: "จับคู่แบบสุ่มกับผู้ใช้ทั่วโลก สะสมแฟนคลับได้รวดเร็ว",
+      inc3_tag: "30 coins สำหรับ 20 วินาทีแรก จากนั้น 240 coins/นาที",
+      inc4_name: "Free Call",
+      inc4_desc: "ฟรีสำหรับผู้ใช้ พร้อมเงินอุดหนุนจากแพลตฟอร์ม",
+      inc4_tag: "150 coins/นาที",
+      inc5_name: "Private Chat",
+      inc5_desc: "แชทหนึ่งต่อหนึ่งกับผู้ใช้ ยิ่งมีข้อความมาก รายได้ยิ่งมาก",
+      inc5_tag: "5 coins ต่อข้อความ",
+      inc6_name: "Gifts",
+      inc6_desc: "ช่องของขวัญพร้อมใช้งานใน Live, Video Call, Match และโปรไฟล์",
+      inc6_tag: "ของขวัญโชคดีจะเพิ่มรายได้เป็นสองเท่า",
+      inc7_name: "Onlyfans Income",
+      inc7_desc: "อัปโหลดรูปภาพหรือวิดีโอพิเศษ ผู้ใช้จ่ายเงินเพื่อปลดล็อก",
+      inc7_tag: "400 coins ต่อภาพหรือวิดีโอ",
+      inc8_name: "Task Bonus",
+      inc8_desc: "ทำภาระงานประจำวันให้ครบ เพื่อรับรางวัลพิเศษ",
+      inc8_tag: "สูงสุด $15/วัน",
+      inc9_name: "Referral Reward",
+      inc9_desc: "แนะนำผู้ใช้: คุณจะได้รับ 1000 coins เมื่อพวกเขาเติม 10,000 coins; แนะนำ Host: คุณสามารถได้รับสูงสุด 20,000 coins หลังจากที่พวกเขาได้รับ 7,000 coins",
+      inc9_tag: "สูงสุด 20,000 coins",
+      inc10_name: "Become an Agency",
+      inc10_desc: "เป็นทั้ง Host และ Agency ในเวลาเดียวกัน แล้วรับรายได้เป็นสองเท่า",
+      inc10_tag: "รายได้คู่",
+      rate_text: "💱 อัตราแลกเปลี่ยน: 6666 coins = 1 USD",
+      title_cert: "🎬 ขั้นตอนการตรวจสอบ Host",
+      cert_sub: "ช่วยให้คุณเข้าร่วมได้สำเร็จ",
+      s1: "กรอกรหัสเชิญ",
+      s2: "กรอกข้อมูลส่วนตัว",
+      s3: "ผ่านการจดจำใบหน้า",
+      s4: "เริ่ม Live ทดลอง: ระบบจะจัดสรรการโทร 1 นาทีจำนวน 20 ครั้ง หากมีการโทร 5 ครั้งที่ยาวกว่า 50 วินาที ถือว่าผ่าน Live ทดลอง",
+      s5: "รับ 5000 coins หลังจากทำการทดลองเสร็จ",
+      tip_text: "💡 เคล็ดลับ: รางวัลการทดลองจะไม่ถูกส่งโดยอัตโนมัติ จะถูกส่งหลังจากที่คุณผ่านการทดลองเท่านั้น",
+      title_star: "📊 1V1 Video Call · รายได้ตามระดับดาว",
+      t1: "ดาว",
+      t2: "รายได้ต่อนาที",
+      t3: "ดาว",
+      t4: "รายได้ 7 วันล่าสุด (coins)",
+      star_note: "ระดับดาวพิจารณาจากรายได้ของคุณใน 7 วันล่าสุด",
+      title_rule: "💳 กฎการถอนเงิน &nbsp;·&nbsp; 📋 ข้อกำหนด Host",
+      withdraw_title: "💳 กฎการถอนเงิน",
+      w1: "ถอนเงินได้ตลอดเวลา:",
+      w1_txt: "พร้อมใช้งานทุกวัน",
+      w2: "จำนวนขั้นต่ำ:",
+      w2_txt: "ขั้นต่ำ 70,000 coins",
+      w3: "การชำระเงินรวดเร็ว:",
+      w3_txt: "การตรวจสอบอัตโนมัติและการโอนเงินอัตโนมัติ",
+      w4: "การชำระเงินในท้องถิ่น:",
+      w4_txt: "รองรับวิธีการชำระเงินมากกว่า 100 ช่องทาง",
+      hostreq_title: "📋 ข้อกำหนด Host",
+      h1: "ผู้หญิง อายุ 18‑40 ปี มีรูปลักษณ์ที่ดี",
+      h2: "ต้องแสดงตัวเป็นบุคคลจริง ในสภาพแวดล้อมที่เป็นส่วนตัวและเงียบสงบ",
+      h3: "โต้ตอบอย่างแข็งขัน ปฏิบัติตามกฎความปลอดภัยของแพลตฟอร์ม",
+      h4: "ไม่จำเป็นต้องให้ข้อมูลส่วนตัว สามารถหารายได้โดยไม่เปิดเผยตัว",
+      copyright: "⚖ © 2026 ทีมงาน Emma Operations · สงวนลิขสิทธิ์ทั้งหมด",
+      download_btn: "ดาวน์โหลดและลงทะเบียนตอนนี้"
+    },
+    ar: {
+      nav_host: "سياسة المضيفة",
+      nav_agency: "سياسة الوكالة",
+      nav_contact: "اتصل بنا",
+      title_why: "💫 لماذا تختار Emma",
+      adv1: "مستخدمون عالميون، بما في ذلك مستخدمون ذوو قيمة عالية من أوروبا وأمريكا والشرق الأوسط",
+      adv2: "قاعدة مستخدمين ضخمة، مئات الآلاف من المستخدمين النشطين يوميًا",
+      adv3: "نماذج دخل متعددة، مناسبة للمضيفات من جميع المستويات",
+      adv4: "انسحب في أي وقت، ويصل الدفع بسرعة",
+      adv5: "بيانات شفافة، تظهر بوضوح في التطبيق",
+      adv6: "إدارة موحدة، لا توجد عقوبات تعسفية",
+      adv7: "تغطية لغوية عالمية، بدعم من الترجمة بالذكاء الاصطناعي",
+      adv8: "مديرون رسميون عبر الإنترنت للمساعدة في زيادة الأرباح",
+      adv9: "خدمة عملاء 7*24 عبر الإنترنت، جاهزة لمعالجة المشكلات",
+      adv10: "بيئة عادلة وودودة في التطبيق",
+      title_income: "💰 نموذج دخل Emma",
+      income_sub: "نماذج دخل متعددة، مناسبة للمضيفات من مستويات مختلفة",
+      inc1_name: "بث مباشر",
+      inc1_desc: "الراتب الأساسي للبث المباشر يصل إلى $60/أسبوع، والعمولة تصل إلى 42%",
+      inc1_tag: "الأساسي $60/أسبوع · العمولة 42%",
+      inc2_name: "مكالمة فيديو 1V1",
+      inc2_desc: "مفتوح حسب مستوى النجمة، والنجمة الأعلى تجلب أرباحًا أعلى",
+      inc2_tag: "يصل إلى 6666 coins/دقيقة",
+      inc3_name: "مكالمة فيديو مطابقة",
+      inc3_desc: "مطابقة عشوائية مع مستخدمين عالميين، وتراكم المعجبين بسرعة",
+      inc3_tag: "30 coins لأول 20 ثانية، ثم 240 coins/دقيقة",
+      inc4_name: "مكالمة مجانية",
+      inc4_desc: "مجانية للمستخدمين، مع دعم مالي من المنصة",
+      inc4_tag: "150 coins/دقيقة",
+      inc5_name: "دردشة خاصة",
+      inc5_desc: "الدردشة واحد لواحد مع المستخدمين، والمزيد من الرسائل تجلب المزيد من الأرباح",
+      inc5_tag: "5 coins لكل رسالة",
+      inc6_name: "الهدايا",
+      inc6_desc: "مدخل الهدايا متوفر في البث المباشر ومكالمة الفيديو والمطابقة والملف الشخصي",
+      inc6_tag: "هدايا الحظ تضاعف دخلك",
+      inc7_name: "دخل Onlyfans",
+      inc7_desc: "ارفع صورًا أو مقاطع فيديو حصرية، ويقوم المستخدمون بالدفع لفتحها",
+      inc7_tag: "400 coins لكل صورة أو فيديو",
+      inc8_name: "مكافأة المهام",
+      inc8_desc: "أكمل المهام اليومية للحصول على مكافآت إضافية",
+      inc8_tag: "يصل إلى $15/يوم",
+      inc9_name: "مكافأة الإحالة",
+      inc9_desc: "أحِل مستخدمًا: ستحصل على 1000 coins عندما يقوم بإعادة شحن 10,000 coins؛ أحِل مضيفة: يمكنك الحصول على ما يصل إلى 20,000 coins بعد أن تكسب 7,000 coins",
+      inc9_tag: "يصل إلى 20,000 coins",
+      inc10_name: "أن تصبح وكالة",
+      inc10_desc: "كن مضيفة ووكالة في نفس الوقت، واحصل على دخل مزدوج",
+      inc10_tag: "دخل مزدوج",
+      rate_text: "💱 سعر الصرف: 6666 coins = 1 USD",
+      title_cert: "🎬 عملية التحقق من المضيفة",
+      cert_sub: "مساعدتك على الانضمام بنجاح",
+      s1: "أدخل رمز الدعوة",
+      s2: "املأ المعلومات الشخصية",
+      s3: "اجتاز التعرف على الوجه",
+      s4: "ابدأ بثًا تجريبيًا: سيقوم النظام بتخصيص 20 مكالمة مدة كل منها دقيقة واحدة. إذا استمرت 5 مكالمات لأكثر من 50 ثانية، فسيتم اجتياز البث التجريبي.",
+      s5: "استلام 5000 coins بعد إكمال التجربة",
+      tip_text: "💡 نصيحة: لا يتم إصدار مكافأة التجربة تلقائيًا؛ سيتم إرسالها فقط بعد اجتيازك للتجربة.",
+      title_star: "📊 مكالمة فيديو 1V1 · أرباح مستوى النجمة",
+      t1: "النجمة",
+      t2: "الأرباح لكل دقيقة",
+      t3: "النجمة",
+      t4: "الدخل الأخير لـ 7 أيام (coins)",
+      star_note: "يتم تحديد مستوى النجمة بناءً على دخلك في آخر 7 أيام.",
+      title_rule: "💳 قواعد الانسحاب &nbsp;·&nbsp; 📋 متطلبات المضيفة",
+      withdraw_title: "💳 قواعد الانسحاب",
+      w1: "انسحب في أي وقت:",
+      w1_txt: "متوفر كل يوم",
+      w2: "الحد الأدنى:",
+      w2_txt: "70,000 coins كحد أدنى",
+      w3: "دفع سريع:",
+      w3_txt: "المراجعة التلقائية والتحويل التلقائي",
+      w4: "دفع محلي:",
+      w4_txt: "يدعم أكثر من 100 طريقة دفع",
+      hostreq_title: "📋 متطلبات المضيفة",
+      h1: "أنثى، عمر 18‑40 عامًا، مظهر جيد",
+      h2: "يجب أن تظهر كشخص حقيقي، في بيئة خاصة وهادئة",
+      h3: "تفاعل نشط، والامتثال لقواعد الأمان الخاصة بالمنصة",
+      h4: "لا توجد حاجة لمعلومات شخصية، اكسب بشكل مجهول",
+      copyright: "⚖ © 2026 فريق عمليات Emma · جميع الحقوق محفوظة",
+      download_btn: "التنزيل والتسجيل الآن"
+    },
+    tr: {
+      nav_host: "Host Politikası",
+      nav_agency: "Ajans Politikası",
+      nav_contact: "Bize Ulaşın",
+      title_why: "💫 Neden Emma'yı Seçmelisiniz",
+      adv1: "Küresel kullanıcılar, Avrupa, Amerika ve Orta Doğu'dan yüksek değerli kullanıcılar dahil",
+      adv2: "Büyük kullanıcı tabanı, yüz binlerce günlük aktif kullanıcı",
+      adv3: "Birden fazla gelir modeli, her seviyedeki Host için uygun",
+      adv4: "İstediğiniz zaman para çekin, ödeme hızlı bir şekilde ulaşır",
+      adv5: "Şeffaf veriler, APP'de açıkça gösterilir",
+      adv6: "Standartlaştırılmış yönetim, keyfi cezalar yok",
+      adv7: "Küresel dil kapsamı, AI çeviri desteği ile",
+      adv8: "Resmi yöneticiler çevrimiçi olarak kazançları artırmaya yardımcı olur",
+      adv9: "7*24 müşteri hizmetleri çevrimiçi, sorunları çözmeye hazır",
+      adv10: "APP'de adil ve dostça bir ortam",
+      title_income: "💰 Emma Gelir Modeli",
+      income_sub: "Birden fazla gelir modeli, farklı seviyelerdeki Host için uygun",
+      inc1_name: "Canlı Yayın",
+      inc1_desc: "Canlı yayın taban maaşı $60/hafta'ya kadar, komisyon %42'ye kadar",
+      inc1_tag: "Taban $60/hafta · Komisyon %42",
+      inc2_name: "1V1 Video Arama",
+      inc2_desc: "Yıldız seviyesine göre açılır, daha yüksek yıldız daha yüksek kazanç getirir",
+      inc2_tag: "6666 coins/dakika'ya kadar",
+      inc3_name: "Match Video Arama",
+      inc3_desc: "Küresel kullanıcılarla rastgele eşleşme, hayranları hızla biriktirme",
+      inc3_tag: "İlk 20 saniye için 30 coins, ardından 240 coins/dakika",
+      inc4_name: "Ücretsiz Arama",
+      inc4_desc: "Kullanıcılar için ücretsiz, platform desteği ile",
+      inc4_tag: "150 coins/dakika",
+      inc5_name: "Özel Sohbet",
+      inc5_desc: "Kullanıcılarla birebir sohbet edin, daha fazla mesaj daha fazla kazanç getirir",
+      inc5_tag: "Mesaj başına 5 coins",
+      inc6_name: "Hediyeler",
+      inc6_desc: "Canlı yayın, video arama, match ve profilde hediye girişi mevcut",
+      inc6_tag: "Şans hediyeleri gelirinizi ikiye katlar",
+      inc7_name: "Onlyfans Geliri",
+      inc7_desc: "Özel fotoğraflar veya videolar yükleyin, kullanıcılar açmak için öder",
+      inc7_tag: "Fotoğraf veya video başına 400 coins",
+      inc8_name: "Görev Bonusu",
+      inc8_desc: "Ekstra ödüller almak için günlük görevleri tamamlayın",
+      inc8_tag: "Günde $15'e kadar",
+      inc9_name: "Referral Ödülü",
+      inc9_desc: "Bir kullanıcıyı yönlendirin: 10,000 coins yüklediğinde 1000 coins kazanırsınız; bir Host'u yönlendirin: 7,000 coins kazandıktan sonra 20,000 coins'a kadar kazanabilirsiniz",
+      inc9_tag: "20,000 coins'a kadar",
+      inc10_name: "Bir Ajans Olun",
+      inc10_desc: "Aynı anda hem Host hem de Ajans olun ve çifte gelir kazanın",
+      inc10_tag: "Çifte Gelir",
+      rate_text: "💱 Döviz kuru: 6666 coins = 1 USD",
+      title_cert: "🎬 Host Doğrulama Süreci",
+      cert_sub: "Başarıyla katılmanıza yardımcı olun",
+      s1: "Davet kodunu girin",
+      s2: "Kişisel bilgileri doldurun",
+      s3: "Yüz tanımayı geçin",
+      s4: "Deneme canlı yayını başlatın: Sistem bir dakikalık 20 arama atayacaktır. 5 arama 50 saniyeden uzun sürerse deneme canlı yayını geçilir.",
+      s5: "Denemeyi tamamladıktan sonra 5000 coins alın",
+      tip_text: "💡 İpucu: Deneme ödülü otomatik olarak verilmez; yalnızca denemeyi geçtikten sonra gönderilir.",
+      title_star: "📊 1V1 Video Arama · Yıldız Seviyesi Kazançları",
+      t1: "Yıldız",
+      t2: "Dakika başına kazanç",
+      t3: "Yıldız",
+      t4: "Son 7 gün gelir (coins)",
+      star_note: "Yıldız seviyesi, son 7 gününüzdeki gelire göre belirlenir.",
+      title_rule: "💳 Para Çekme Kuralları &nbsp;·&nbsp; 📋 Host Gereksinimleri",
+      withdraw_title: "💳 Para Çekme Kuralları",
+      w1: "İstediğiniz zaman para çekin:",
+      w1_txt: "Her gün kullanılabilir",
+      w2: "Minimum limit:",
+      w2_txt: "Minimum 70,000 coins",
+      w3: "Hızlı ödeme:",
+      w3_txt: "Otomatik inceleme ve otomatik transfer",
+      w4: "Yerel ödeme:",
+      w4_txt: "100+'dan fazla ödeme yöntemini destekler",
+      hostreq_title: "📋 Host Gereksinimleri",
+      h1: "Kadın, 18‑40 yaşında, iyi görünüm",
+      h2: "Gerçek kişi olarak görünmelidir, özel ve sessiz bir ortamda",
+      h3: "Aktif etkileşim, platform güvenlik kurallarına uyun",
+      h4: "Kişisel bilgiye gerek yok, anonim kazanın",
+      copyright: "⚖ © 2026 Emma Operasyon Ekibi · Tüm hakları saklıdır",
+      download_btn: "Şimdi İndir ve Kaydol"
+    },
+    id: {
+      nav_host: "Kebijakan Host",
+      nav_agency: "Kebijakan Agensi",
+      nav_contact: "Hubungi Kami",
+      title_why: "💫 Mengapa Memilih Emma",
+      adv1: "Pengguna global, termasuk pengguna bernilai tinggi dari Eropa, Amerika, dan Timur Tengah",
+      adv2: "Basis pengguna besar, ratusan ribu pengguna aktif harian",
+      adv3: "Beragam model pendapatan, cocok untuk Host dari semua level",
+      adv4: "Tarik dana kapan saja, pembayaran cepat diterima",
+      adv5: "Data transparan, ditampilkan dengan jelas di aplikasi",
+      adv6: "Manajemen standar, tidak ada hukuman sewenang-wenang",
+      adv7: "Cakupan bahasa global, didukung oleh terjemahan AI",
+      adv8: "Administrator resmi online, siap membantu meningkatkan pendapatan",
+      adv9: "Layanan pelanggan 7*24 online, siap menangani masalah",
+      adv10: "Lingkungan yang adil dan ramah di aplikasi",
+      title_income: "💰 Model Pendapatan Emma",
+      income_sub: "Beragam model pendapatan, cocok untuk Host dari berbagai level",
+      inc1_name: "Live Stream",
+      inc1_desc: "Gaji dasar live stream hingga $60/minggu, komisi hingga 42%",
+      inc1_tag: "Dasar $60/minggu · Komisi 42%",
+      inc2_name: "Video Call 1V1",
+      inc2_desc: "Dibuka berdasarkan level bintang, bintang lebih tinggi memberikan pendapatan lebih besar",
+      inc2_tag: "Hingga 6666 coins/menit",
+      inc3_name: "Match Video Call",
+      inc3_desc: "Pertandingan acak dengan pengguna global, mengumpulkan penggemar dengan cepat",
+      inc3_tag: "30 coins untuk 20 detik pertama, kemudian 240 coins/menit",
+      inc4_name: "Panggilan Gratis",
+      inc4_desc: "Gratis untuk pengguna, dengan subsidi platform",
+      inc4_tag: "150 coins/menit",
+      inc5_name: "Private Chat",
+      inc5_desc: "Chat satu lawan satu dengan pengguna, lebih banyak pesan menghasilkan lebih banyak pendapatan",
+      inc5_tag: "5 coins per pesan",
+      inc6_name: "Gifts",
+      inc6_desc: "Entri hadiah tersedia di live, video call, match, dan profil",
+      inc6_tag: "Hadiah keberuntungan menggandakan pendapatan Anda",
+      inc7_name: "Pendapatan Onlyfans",
+      inc7_desc: "Unggah foto atau video eksklusif, pengguna membayar untuk membuka",
+      inc7_tag: "400 coins per foto atau video",
+      inc8_name: "Task Bonus",
+      inc8_desc: "Selesaikan tugas harian untuk mendapatkan hadiah tambahan",
+      inc8_tag: "Hingga $15/hari",
+      inc9_name: "Referral Reward",
+      inc9_desc: "Rujuk pengguna: Anda mendapatkan 1000 coins saat mereka mengisi ulang 10.000 coins; rujuk Host: Anda bisa mendapatkan hingga 20.000 coins setelah mereka mendapatkan 7.000 coins",
+      inc9_tag: "Hingga 20.000 coins",
+      inc10_name: "Menjadi Agensi",
+      inc10_desc: "Jadi Host dan Agensi sekaligus, lalu dapatkan pendapatan ganda",
+      inc10_tag: "Pendapatan Ganda",
+      rate_text: "💱 Nilai tukar: 6666 coins = 1 USD",
+      title_cert: "🎬 Proses Verifikasi Host",
+      cert_sub: "Membantu Anda bergabung dengan sukses",
+      s1: "Masukkan kode undangan",
+      s2: "Isi informasi pribadi",
+      s3: "Lalui pengenalan wajah",
+      s4: "Mulai live uji coba: Sistem akan menetapkan 20 panggilan satu menit. Jika 5 panggilan berlangsung lebih dari 50 detik, live uji coba dinyatakan lulus.",
+      s5: "Terima 5000 coins setelah menyelesaikan uji coba",
+      tip_text: "💡 Tips: Hadiah uji coba tidak diberikan secara otomatis; hanya dikirim setelah Anda lulus uji coba.",
+      title_star: "📊 Video Call 1V1 · Pendapatan Level Bintang",
+      t1: "Bintang",
+      t2: "Pendapatan per menit",
+      t3: "Bintang",
+      t4: "Pendapatan 7 hari terakhir (coins)",
+      star_note: "Level bintang ditentukan berdasarkan pendapatan Anda dalam 7 hari terakhir.",
+      title_rule: "💳 Aturan Penarikan &nbsp;·&nbsp; 📋 Persyaratan Host",
+      withdraw_title: "💳 Aturan Penarikan",
+      w1: "Tarik dana kapan saja:",
+      w1_txt: "Tersedia setiap hari",
+      w2: "Batas minimum:",
+      w2_txt: "Minimum 70.000 coins",
+      w3: "Pembayaran cepat:",
+      w3_txt: "Review otomatis dan transfer otomatis",
+      w4: "Pembayaran lokal:",
+      w4_txt: "Mendukung 100+ metode pembayaran",
+      hostreq_title: "📋 Persyaratan Host",
+      h1: "Wanita, usia 18‑40 tahun, penampilan baik",
+      h2: "Harus tampil sebagai orang sungguhan, di lingkungan yang privat dan tenang",
+      h3: "Interaksi aktif, patuhi aturan keamanan platform",
+      h4: "Tidak memerlukan informasi pribadi, dapatkan pendapatan secara anonim",
+      copyright: "⚖ © 2026 Tim Operasi Emma · Semua hak dilindungi undang-undang",
+      download_btn: "Unduh & Daftar Sekarang"
+    }
+  };
+
+  const langSelect = document.getElementById('langSelect');
+
+  function updateLanguage(lang) {
+    const txt = translations[lang];
+    if (!txt) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (txt[key]) {
+        el.innerHTML = txt[key];
+      }
+    });
+    if (lang === 'ar') {
+      document.documentElement.setAttribute('dir', 'rtl');
+    } else {
+      document.documentElement.removeAttribute('dir');
+    }
+    localStorage.setItem('siteLang', lang);
+    langSelect.value = lang;
+  }
+
+  let savedLang = localStorage.getItem('siteLang') || 'en';
+  updateLanguage(savedLang);
+
+  langSelect.addEventListener('change', function () {
+    updateLanguage(this.value);
+  });
+</script>
+
